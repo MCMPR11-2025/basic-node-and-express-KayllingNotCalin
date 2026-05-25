@@ -2,10 +2,26 @@ let express = require('express');
 let app = express();
 require('dotenv').config()
 console.log("Hello World");
+var bodyParser = require("body-parser");
+
+app.post("/name", function(req, res) {
+  // Handle the data in the request
+  var string = req.body.first + " " + req.body.last;
+  res.json({ name: string });
+});
 
 
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
+app.get("/name", function(req, res) {
+  var firstName = req.query.first;
+  var lastName = req.query.last;
+  var { first: firstName, last: lastName } = req.query;
+  res.json({
+    name: `${firstName} ${lastName}`
+  });
+});
 
 app.get("/name", function(req, res) {
   var firstName = req.query.first;
